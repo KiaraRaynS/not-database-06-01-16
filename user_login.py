@@ -39,26 +39,25 @@ def login_user():
                 if line['user_name'] == username_attempt and line['user_password'] == password_attempt:
                     print('Correct')
                     print('Welcome {}.'.format(username_attempt))
-                    while True:
-                        view_data = 'v'
-                        logout = 'l'
-                        action = input('''What would you like to do?
-                                (v) - View user data
-                                (l) - Logout\n''').lower()
-                        if action == view_data:
-                            while True:
-                                print('Enter "e" to exit')
-                                user_fullname = line['user_fullname']
-                                additional_info = line['additional_info']
-                                print('''User Fullname: {}
-    Additional information: {}'''.format(user_fullname, additional_info))
-                                prompt = input('')
-                                if prompt == 'e':
-                                    break
-                        if action == create_user:
-                            create_user()
-                        elif action == logout:
-                            break
+                    view_data = 'v'
+                    logout = 'l'
+                    action = input('''What would you like to do?
+                            (v) - View user data
+                            (l) - Logout\n''').lower()
+                    if action == view_data:
+                        while True:
+                            print('Enter "e" to exit')
+                            user_fullname = line['user_fullname']
+                            additional_info = line['additional_info']
+                            print('''User Fullname: {}
+Additional information: {}'''.format(user_fullname, additional_info))
+                            prompt = input('')
+                            if prompt == 'e':
+                                break
+                    if action == create_user:
+                        create_user()
+                    elif action == logout:
+                        return
 
                 elif line['user_name'] == username_attempt:
                     if line['user_password'] != password_attempt:
@@ -66,7 +65,6 @@ def login_user():
             else:
                 print('Sorry, login unsuccesful.')
                 attempts += 1
-                print(attempts)
                 print('{} login attempts remaining.'.format(remaining_attempts))
 
 while True:
