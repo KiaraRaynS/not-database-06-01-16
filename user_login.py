@@ -33,37 +33,36 @@ def login_user():
             password_attempt = input('Enter password: ').lower()
             if attempts == 5:
                 print('You are out of login attempts')
-            if username_attempt or password_attempt == 'exit':
+            if username_attempt == "exit" or password_attempt == 'exit':
                     break
             for line in database:
-                # if username == searched_username
-                #    if password != searched_password
-                #       ERRORR
-                #    else
-                #       CONGRATS ON LOGIN!
-                if line['user_name'] == username_attempt:
-                    if line['user_password'] != password_attempt:
-                        continue
-                elif line['user_name'] == username_attempt and line['user_password'] == password_attempt:
+                if line['user_name'] == username_attempt and line['user_password'] == password_attempt:
                     print('Correct')
                     print('Welcome {}.'.format(username_attempt))
-                    view_data = 'v'
-                    logout = 'l'
-                    action = input('''What would you like to do?
-                            (v) - View user data
-                            (l) - Logout\n''').lower()
-                    if action == view_data:
-                        user_fullname = line['user_fullname']
-                        additional_info = line['additional_info']
-                        print('''User Fullname: {}
-Additional information: {}'''.format(user_fullname, additional_info))
-                        print('enter e to exit')
-                        # if user enters e return to previous screens
-                    elif action == logout:
-                        pass
-                    # return to beginning screen
-                    if action == create_user:
-                        create_user()
+                    while True:
+                        view_data = 'v'
+                        logout = 'l'
+                        action = input('''What would you like to do?
+                                (v) - View user data
+                                (l) - Logout\n''').lower()
+                        if action == view_data:
+                            while True:
+                                print('Enter "e" to exit')
+                                user_fullname = line['user_fullname']
+                                additional_info = line['additional_info']
+                                print('''User Fullname: {}
+    Additional information: {}'''.format(user_fullname, additional_info))
+                                prompt = input('')
+                                if prompt == 'e':
+                                    break
+                        if action == create_user:
+                            create_user()
+                        elif action == logout:
+                            break
+
+                elif line['user_name'] == username_attempt:
+                    if line['user_password'] != password_attempt:
+                        continue
             else:
                 print('Sorry, login unsuccesful.')
                 attempts += 1
