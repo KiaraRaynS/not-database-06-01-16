@@ -4,10 +4,14 @@ import getpass
 
 def create_user():
     user_name = input('Choose a Username: ').lower()
-    user_password = input('Choose a Password: ').lower()
+    user_password = input('Choose a Password: ')
+    user_password2 = input('Verify Password: ')
     user_fullname = input('Enter full name: ').lower()
     additional_info = input('*optional information: ').lower()
-
+    while user_password != user_password2:
+        print('Passwords did not match')
+        user_password = input('Choose a Password: ')
+        user_password2 = input('Verify Password: ')
     user_data = ('{},{},{},{}\n').format(user_name, user_password, user_fullname, additional_info)
 
     with open('user_database.csv') as infile:
@@ -42,13 +46,16 @@ def login_user():
                     print('Welcome {}.'.format(username_attempt))
                     view_data = 'v'
                     logout = 'l'
-                    change_data = 'c'
+                    create_user = 'c'
+                    edit_data = 'e'
                     action = input('''What would you like to do?
                             (v) - View user data
-                            (c) - Change user information
+                            (e) - edit_data
+                            (c) - Create User
                             (l) - Logout\n''').lower()
                     if action == view_data:
-                        while True:
+                        break_loop = False
+                        while not break_loop:
                             print('Enter "e" to exit')
                             user_fullname = line['user_fullname']
                             additional_info = line['additional_info']
@@ -56,20 +63,21 @@ def login_user():
     Additional information: {}'''.format(user_fullname, additional_info))
                             prompt = input('')
                             if prompt == 'e':
-                                return
+                                break_loop = True
+                                # return break_loop
                     elif action == create_user:
                         create_user()
                     elif action == logout:
                         return
-                    elif action == change_data:
-                        print(change_data)
-                        # while True:
-                        #   update_data = 'u'
-                        #    change_password = 'p'
-                        #    user_answer = input('''What would you like to do?
-                        #    (u)pdate information
-                        #    (c)hange password
-                        #    type "exit" to exit\n''')
+                    elif action == edit_data:
+                        print('Editting data')
+                        while True:
+                            update_data = 'u'
+                            change_password = 'p'
+                            user_answer = input('''What would you like to do?
+                            (u)pdate information
+                            (c)hange password
+                            type "exit" to exit\n''')
                         #    if user_answer == change_password:
                         #        new_password = input('Enter new password: ')
                         #        for key, value in line:
@@ -77,8 +85,8 @@ def login_user():
                         #    elif user_answer == update_data:
                         #        updated_data = input('Enter new information: ')
                         #        line = line.replace(line[4], updated_data)
-                        #    elif user_answer == 'exit':
-                        #        break
+                            if user_answer == 'exit':
+                                break
 
                 elif line['user_name'] == username_attempt:
                     if line['user_password'] != password_attempt:
